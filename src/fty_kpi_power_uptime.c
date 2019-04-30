@@ -86,6 +86,7 @@ int main (int argc, char *argv [])
     zstr_sendx (server, "CONSUMER", "METRICS", "^status@.*", NULL);
     zstr_sendx (server, "CONSUMER", "ASSETS", "^datacenter.unknown@.*", NULL);
     zstr_sendx (server, "CONSUMER", "ASSETS", "^datacenter.N_A@.*", NULL);
+    zstr_sendx (server, "ASKFORASSETS", NULL);
     zsock_wait (server);
 
     //  Accept and print any message back from server

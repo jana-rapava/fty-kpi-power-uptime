@@ -27,6 +27,7 @@
 */
 
 #include "fty_kpi_power_uptime_classes.h"
+#include <fty_common_agents.h>
 
 //  Structure of our class
 
@@ -336,6 +337,15 @@ void fty_kpi_power_uptime_server (zsock_t *pipe, void *args)
                 }
                 zstr_free (&dir);
                 zsock_signal (pipe, 0);
+            }
+            else
+            if (streq (cmd, "ASKFORASSETS")) {
+                log_debug("Asking for assets");
+                zmsg_t *republish = zmsg_new ();
+                int rv = mlm_client_sendto (client, AGENT_FTY_ASSET, "REPUBLISH", NULL, 5000, &republish);
+                if ( rv != 0) {
+                    log_error ("Cannot send REPUBLISH message");
+                }
             }
             zstr_free (&cmd);
             zmsg_destroy (&msg);
